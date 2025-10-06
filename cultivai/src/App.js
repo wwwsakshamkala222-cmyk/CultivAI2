@@ -825,7 +825,7 @@ const handleLogout = async () => {
 
         try {
           const isDev = process.env.NODE_ENV === "development";
-          const apiBase = isDev ? "https://cultiv-ai-deplyment.vercel.app" : "";
+          const apiBase = "https://cultivai-mocha.vercel.app/";
 
           const res = await fetch(`${apiBase}/api/chat`, {
             method: "POST",
