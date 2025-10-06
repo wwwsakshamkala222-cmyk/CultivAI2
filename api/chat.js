@@ -89,6 +89,7 @@ Keep each point to one sentence only. Be specific and practical.`,
 
     const extracted = extractText(response.data);
     const bullets = formatAsBullets(extracted);
+
     return res.status(200).json({ bullets });
   } catch (error) {
     console.error("🚨 Gemini API error:", error?.response?.data || error.message);
