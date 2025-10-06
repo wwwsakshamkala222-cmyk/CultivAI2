@@ -824,10 +824,8 @@ const handleLogout = async () => {
         setQuery("");
 
         try {
-          const apiBase =
-          import.meta.env.DEV || process.env.NODE_ENV === "development"
-            ? "https://cultiv-ai-deplyment.vercel.app"
-            : "";
+          const isDev = process.env.NODE_ENV === "development";
+          const apiBase = isDev ? "https://cultiv-ai-deplyment.vercel.app" : "";
 
           const res = await fetch(`${apiBase}/api/chat`, {
             method: "POST",
