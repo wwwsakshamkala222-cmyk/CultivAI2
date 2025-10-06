@@ -815,36 +815,46 @@ const handleLogout = async () => {
     }
   };
 
-  const handleSearch = async () => {
-    if (!query.trim()) return;
+        const handleSearch = async () => {
+        if (!query.trim()) return;
 
-    const newMessage = { role: "user", text: query.trim() };
-    setMessages((prev) => [...prev, newMessage]);
-    setLoading(true);
-    setQuery("");
+        const newMessage = { role: "user", text: query.trim() };
+        setMessages(prev => [...prev, newMessage]);
+        setLoading(true);
+        setQuery("");
 
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...messages, newMessage] }),
-      });
+        try {
+          const apiBase =
+          import.meta.env.DEV || process.env.NODE_ENV === "development"
+            ? "https://cultiv-ai-deplyment.vercel.app"
+            : "";
 
-      const data = await res.json();
-      console.log("👉 Response from backend:", data);
+          const res = await fetch(`${apiBase}/api/chat`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ messages: [...messages, newMessage] }),
+          });
 
-      if (data.bullets) {
-        setMessages((prev) => [...prev, { role: "assistant", bullets: data.bullets }]);
-      } else {
-        setMessages((prev) => [...prev, { role: "assistant", text: "⚠️ No response" }]);
-      }
-    } catch (err) {
-      console.error("❌ Error fetching:", err);
-      setMessages((prev) => [...prev, { role: "assistant", text: "⚠️ Something went wrong." }]);
-    } finally {
-      setLoading(false);
-    }
-  };
+          if (!res.ok) {
+            console.error("❌ Server returned:", res.status);
+            throw new Error(`Request failed with status ${res.status}`);
+          }
+
+          const data = await res.json();
+          console.log("👉 Response from backend:", data);
+
+          if (data.bullets) {
+            setMessages(prev => [...prev, { role: "assistant", bullets: data.bullets }]);
+          } else {
+            setMessages(prev => [...prev, { role: "assistant", text: "⚠️ No response" }]);
+          }
+        } catch (err) {
+          console.error("❌ Error fetching:", err);
+          setMessages(prev => [...prev, { role: "assistant", text: "⚠️ Something went wrong." }]);
+        } finally {
+          setLoading(false);
+        }
+      };
 
   // ============================================
   // 4. CONDITIONAL RETURNS (ONLY AFTER ALL HOOKS)
