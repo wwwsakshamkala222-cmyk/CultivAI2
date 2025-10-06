@@ -34,16 +34,15 @@ function formatAsBullets(text) {
 
 export default async function handler(req, res) {
   // --- CORS headers ---
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  //     ↑ during local dev; for production replace with your real front‑end domain
-  //     e.g. "https://cultiv-ai-deployment.vercel.app"
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  // --- CORS headers ---
+        res.setHeader("Access-Control-Allow-Origin", "https://cultiv-ai-deployment.vercel.app");
+        res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  // --- Handle preflight OPTIONS ---
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
+        if (req.method === "OPTIONS") {
+        res.status(200).end();
+        return;   // ✅  this line prevents Vercel from inserting a redirect
+        }
 
   // --- Explicitly block trailing-slash redirect ---
   if (req.url.endsWith("/")) {
