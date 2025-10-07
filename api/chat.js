@@ -35,7 +35,7 @@ function formatAsBullets(text) {
 export default async function handler(req, res) {
   // --- CORS headers ---
   // --- CORS headers ---
-        res.setHeader("Access-Control-Allow-Origin", "https://cultiv-ai-deployment.vercel.app");
+        res.setHeader("Access-Control-Allow-Origin", "https://cultiv-ai-2.vercel.app");
         res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
         res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
